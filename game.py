@@ -1,5 +1,4 @@
 import warnings
-import copy
 
 class Game:
 	def __init__(self) -> None:
@@ -59,25 +58,29 @@ class Game:
 	def get_copy(self) -> object:
 		g_copy = Game()
   
-		g_copy.board = copy.deepcopy(self.board)
+		new_board = []
+		for i in self.board:
+			new_board.append(i)
+   
+		g_copy.board = new_board
 		g_copy.move_value = self.move_value
 		g_copy.complete = self.complete
 		
 		return g_copy
 					
-	# def __str__(self) -> str:
-	# 	r_str = ""
+	def __str__(self) -> str:
+		r_str = ""
 		
-	# 	for i in range(9):
-	# 		if self.board[i] == -1:
-	# 			r_str += " O "
-	# 		elif self.board[i] == 0:
-	# 			r_str += " # "
-	# 		else:
-	# 			r_str += " X "
+		for i in range(9):
+			if self.board[i] == -1:
+				r_str += " O "
+			elif self.board[i] == 0:
+				r_str += " # "
+			else:
+				r_str += " X "
 			
-	# 		if (i == 2 or i == 5):
-	# 			r_str += "\n"
+			if (i == 2 or i == 5):
+				r_str += "\n"
 				
-	# 	return r_str
+		return r_str
 	
