@@ -13,7 +13,10 @@ class Game:
 		if (self.complete == 0):
 			r1, r2, r3 = (0, 0, 0)
 			c1, c2, c3 = (0, 0, 0)
+			t1, t2, t3 = (0, 0, 0)
 			d1, d2 = (0, 0)
+
+			
 			
 			for i in range(3):
 				r1 += self.board[i]
@@ -23,7 +26,11 @@ class Game:
 				c1 += self.board[i*3]
 				c2 += self.board[i*3+1]
 				c3 += self.board[i*3+2]
-				
+
+				t1 += abs(self.board[i])
+				t2 += abs(self.board[i+3])
+				t3 += abs(self.board[i+6])
+
 				d1 += self.board[i*4]
 				d2 += self.board[i*2+2]
 			
@@ -35,12 +42,12 @@ class Game:
 				self.complete = 1
 
 			# O Win
-			if (o_total == -3):
+			elif (o_total == -3):
 				self.complete = 2
 				
 			# Tie Case
-			if (abs(r1) == 1 and abs(r2) == 1 and abs(r3) == 1):
-				self.complete = 3
+			elif (t1 == 3 and t2 == 3 and t3 == 3):
+					self.complete = 3
 			
 	def make_move(self, index) -> None:
 		if (self.complete != 0):

@@ -25,12 +25,10 @@ class Minimax:
 				moves.append(move)	
 
 		if (game.move_value == 1):
-			print('b')
 			index = scores.index(max(scores))
 			self.move = moves[index]
 			return scores[index]
 		else:
-			print('a')
 			index = scores.index(min(scores))
 			self.move = moves[index]
 			return scores[index]
