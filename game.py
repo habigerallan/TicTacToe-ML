@@ -16,8 +16,6 @@ class Game:
 			t1, t2, t3 = (0, 0, 0)
 			d1, d2 = (0, 0)
 
-			
-			
 			for i in range(3):
 				r1 += self.board[i]
 				r2 += self.board[i+3]
