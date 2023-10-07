@@ -1,6 +1,45 @@
 import warnings
 
-class Game:
+def score(game, depth):
+		if (game.complete == 1):
+			return 10 - depth
+		elif (game.complete == 2):
+			return depth - 10
+		elif (game.complete == 3):
+			return 0
+	
+def find_best_move(game, depth=0, move=None) -> int:
+	if (game.complete != 0):
+		return score(game, depth)
+	
+	scores = []
+	moves = []
+
+	for move in range(9):
+		if (game.board[move] == 0):
+			possible_game = game.get_copy()
+			possible_game.make_move(move)
+			scores.append(find_best_move(possible_game, depth+1, move))
+			moves.append(move)	
+
+	if (game.move_value == 1):
+		index = scores.index(max(scores))
+		move = moves[index]
+
+		if (depth == 0):
+			return move
+		
+		return scores[index]
+	else:
+		index = scores.index(min(scores))
+		move = moves[index]
+
+		if (depth == 0):
+			return move
+		
+		return scores[index]
+
+class TTTGame:
 	def __init__(self) -> None:
 		self.board = [0, 0, 0,
 					  0, 0, 0,
@@ -46,6 +85,9 @@ class Game:
 			# Tie Case
 			elif (t1 == 3 and t2 == 3 and t3 == 3):
 					self.complete = 3
+
+	def is_valid(self, index) -> bool:
+		return (self.board[index] == 0)
 			
 	def make_move(self, index) -> None:
 		if (self.complete != 0):
@@ -61,7 +103,7 @@ class Game:
 			exit(-1)			
 			
 	def get_copy(self) -> object:
-		g_copy = Game()
+		g_copy = TTTGame()
   
 		new_board = []
 		for i in self.board:
