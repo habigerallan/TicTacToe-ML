@@ -89,7 +89,7 @@ class TTTGame:
 	def is_valid(self, index) -> bool:
 		return (self.board[index] == 0)
 			
-	def make_move(self, index) -> None:
+	def make_move(self, index) -> int:
 		if (self.complete != 0):
 			warnings.warn("Attempted Move On Completed Board")
 			exit(-1)	
@@ -98,10 +98,10 @@ class TTTGame:
 			self.board[index] = self.move_value
 			self.move_value = -self.move_value
 			self.update_state()
-		else:
-			warnings.warn("Invalid Move Selection")
-			exit(-1)			
-			
+			return 1
+		
+		return -1
+					
 	def get_copy(self) -> object:
 		g_copy = TTTGame()
   
