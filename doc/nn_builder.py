@@ -13,15 +13,12 @@ class Network:
 
     def predict(self, input_data):
         samples = len(input_data)
-        result = []
+        output = input_data
 
-        for i in range(samples):
-            output = input_data[i]
-            for layer in self.layers:
-                output = layer.forward_propagation(output)
-            result.append(output)
+        for layer in self.layers:
+            output = layer.forward_propagation(output)
 
-        return result
+        return output
 
     def fit(self, x_train, y_train, epochs, learning_rate):
         samples = len(x_train)
@@ -40,4 +37,4 @@ class Network:
                     error = layer.backward_propagation(error, learning_rate)
 
             err /= samples
-            print('epoch %d/%d   error=%f' % (i+1, epochs, err))
+            # print('epoch %d/%d   error=%f' % (i+1, epochs, err))

@@ -9,6 +9,9 @@ def score(game, depth):
 			return 0
 	
 def find_best_move(game, depth=0, move=None) -> int:
+	if (game.board == [0, 0, 0, 0, 0, 0, 0, 0, 0]):
+		return 0
+
 	if (game.complete != 0):
 		return score(game, depth)
 	
@@ -17,7 +20,7 @@ def find_best_move(game, depth=0, move=None) -> int:
 
 	for move in range(9):
 		if (game.board[move] == 0):
-			possible_game = game.get_copy()
+			possible_game = game.get_game_copy()
 			possible_game.make_move(move)
 			scores.append(find_best_move(possible_game, depth+1, move))
 			moves.append(move)	
@@ -101,8 +104,15 @@ class TTTGame:
 			return 1
 		
 		return -1
+	
+	def get_board_copy(self) -> list:
+		new_board = []
+		for i in self.board:
+			new_board.append(i)
+		
+		return new_board
 					
-	def get_copy(self) -> object:
+	def get_game_copy(self) -> object:
 		g_copy = TTTGame()
   
 		new_board = []

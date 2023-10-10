@@ -1,5 +1,13 @@
 import numpy as np
 
+def transpose(arr):
+    new_arr = []
+    for i in arr:
+        new_arr.append([i])
+    new_arr = np.array(new_arr)
+    
+    return new_arr
+
 class Layer:
     def __init__(self):
         self.input = None
@@ -14,8 +22,6 @@ class Layer:
 class FCLayer(Layer):
     def __init__(self, input_size, output_size):
         self.weights = np.random.rand(input_size, output_size) - 0.5
-        print(self.weights)
-        print(self.weights.shape)
         self.bias = np.random.rand(1, output_size) - 0.5
 
     def forward_propagation(self, input_data):
@@ -25,7 +31,12 @@ class FCLayer(Layer):
 
     def backward_propagation(self, output_error, learning_rate):
         input_error = np.dot(output_error, self.weights.T)
-        weights_error = np.dot(self.input.T, output_error)
+
+        transposed_input = self.input.T
+        if (self.input.shape == transposed_input.shape):
+            transposed_input = transpose(self.input)
+
+        weights_error = np.dot(transposed_input, output_error)
 
         self.weights -= learning_rate * weights_error
         self.bias -= learning_rate * output_error
