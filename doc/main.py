@@ -9,14 +9,15 @@ from nn_layers import *
 
 def train(x, y):
 	print(x)
-	print(y)
+	x = np.array([[i] for i in x])
+	y = np.array(y)
 	net = Network()
 	net.add(FCLayer(9, 9))
 	net.add(ActivationLayer(tanh, tanh_prime))
 	net.add(FCLayer(9, 1))
 	net.add(ActivationLayer(tanh, tanh_prime))
 	net.use(mse, mse_prime)
-	net.fit(x, y, epochs=1000, learning_rate=0.1)
+	net.fit(x, y, epochs=10000, learning_rate=0.1)
 
 	return net
 
@@ -27,11 +28,9 @@ def game_loop():
 	game = TTTGame()
 	net = None
 
-	x_train = np.array([])
-	y_train = np.array([])
+	x_train = []
+	y_train = []
 
-	train([0,0,0,0,0,0,0,0,0],[1])
-	return
 	while (True):
 		if (game.complete != 0):
 			print('Game Over!')
@@ -65,7 +64,7 @@ def game_loop():
 		else:
 			print("nn loaded")
 			move = net.predict(game.board)
-			print(move)
+			print(np.argmax(move))
 	
 
 def main():
