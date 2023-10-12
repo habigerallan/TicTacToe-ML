@@ -30,8 +30,6 @@ def train(net, x, y) -> None:
 
 	net.fit(x, y, epochs=1000, learning_rate=0.1)
 
-	print("Training Complete.")
-
 
 def setup_gui():
 	pass
@@ -62,7 +60,7 @@ def game_loop() -> None:
 
 	x_train = []
 	y_train = []
-
+	
 	while (True):
 
 
@@ -122,7 +120,7 @@ def game_loop() -> None:
 		print(f"Best move: {find_best_move(game)}")
 
 
-def main():
+def main() -> None:
 	setup_gui()
 	game_loop()
 
