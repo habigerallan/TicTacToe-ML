@@ -85,7 +85,7 @@ def game_loop() -> None:
 		except ValueError:
 			move = random.choice(move_lst)
 		
-		if (move < 0 and 8 < move):
+		if (move < 0 or 8 < move):
 			move = random.choice(move_lst)
 
 		while (game.make_move(move) == -1):
