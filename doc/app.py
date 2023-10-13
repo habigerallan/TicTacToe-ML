@@ -3,8 +3,8 @@ kivy.require('2.2.1')
 
 from kivy.config import Config
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
-Config.set('graphics', 'width', '640')
-Config.set('graphics', 'height', '360')
+Config.set('graphics', 'width', '1280')
+Config.set('graphics', 'height', '720')
 Config.set('graphics', 'resizable', '0')
 
 from kivy.app import App
@@ -126,6 +126,8 @@ class Root(RelativeLayout):
         self.board = TTTBoard()
         self.add_widget(self.board)
 
+
+### KEEP CLASSES AS TEMPLATES BUT ADD CONSTRUCTOR THAT CREATES PARENTS/CHILDREN    
 class TicTacToeApp(App):
     def build(self):
         return Root()
