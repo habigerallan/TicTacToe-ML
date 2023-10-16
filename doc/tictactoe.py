@@ -43,7 +43,7 @@ def find_best_move(game, depth=0, move=None) -> int:
 		return scores[index]
 
 class TTTGame:
-	def __init__(self) -> None:
+	def __init__(self) -> object:
 		self.board = [0, 0, 0,
 					  0, 0, 0,
 					  0, 0, 0]
