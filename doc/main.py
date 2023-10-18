@@ -1,10 +1,12 @@
 import random
+import threading
 
 import numpy as np
 
 from tictactoe import *
 from nn_builder import *
 from nn_layers import *
+from app import *
 
 
 def create_network() -> Network:
@@ -30,11 +32,6 @@ def train(net, x, y) -> None:
 
 	net.fit(x, y, epochs=1000, learning_rate=0.1)
 
-
-def setup_gui():
-	pass
-
-
 def is_game_over(game) -> bool:
 	if (game.complete != 0):
 		print("Game Over!")
@@ -53,8 +50,13 @@ def get_data(game) -> (list, list):
 
 	return x_temp, y_temp
 
+def setup_gui() -> object:
+	return TicTacToeApp()
 
-def game_loop() -> None:
+def game_loop(ttt_app) -> None:
+	app = ttt_app
+	game_layout = app.game_layout
+
 	game = TTTGame()
 	net = create_network()
 
@@ -62,8 +64,6 @@ def game_loop() -> None:
 	y_train = []
 	
 	while (True):
-
-
 		# Game Handling
 		print(game)
 
@@ -76,23 +76,39 @@ def game_loop() -> None:
 		x_train.append(x_temp)
 		y_train.append(y_temp)
 
-		
+		made_move = False
+		while made_move:
+			for i in range(9): 
+				if game_layout.cells[i].selected:
+					game_layout.cells[i].selected = False
+					game_layout.cells[i].filled = True
+
+					if game.move_value == 1:
+						game_layout.cells[i].draw_x()
+					else:
+						game_layout.cells[i].draw_o()
+
+					game.make_move(i)
+					made_move = True
+
+					break
+
 		# Player Move
-		move_lst = range(9)
+		# move_lst = range(9)
 
-		try: 
-			move = int(input("Enter your move: "))
-		except ValueError:
-			move = random.choice(move_lst)
+		# try: 
+		# 	move = int(input("Enter your move: "))
+		# except ValueError:
+		# 	move = random.choice(move_lst)
 		
-		if (move < 0 or 8 < move):
-			move = random.choice(move_lst)
+		# if (move < 0 or 8 < move):
+		# 	move = random.choice(move_lst)
 
-		while (game.make_move(move) == -1):
-			move = random.choice(move_lst)
+		# while (game.make_move(move) == -1):
+		# 	move = random.choice(move_lst)
 
-		print(f"Picked move: {move}")
-		print(f"Best move: {find_best_move(game)}")
+		# print(f"Picked move: {move}")
+		# print(f"Best move: {find_best_move(game)}")
 
 
 		# Game Handling
@@ -113,16 +129,28 @@ def game_loop() -> None:
 		move = np.argmax(move_data)
 
 		move_lst = range(9)
-		while (game.make_move(move) == -1):
+		while (game.board[move] != 0):
 			move = random.choice(move_lst)
 
+		game_layout.cells[move].selected = False
+		game_layout.cells[move].filled = True
+
+		if game.move_value == 1:
+			game_layout.cells[move].draw_x()
+		else:
+			game_layout.cells[move].draw_o()
+
+		game.make_move(move)
+		
 		print(f"Picked move: {move}")
 		print(f"Best move: {find_best_move(game)}")
 
 
 def main() -> None:
-	setup_gui()
-	game_loop()
+	app = setup_gui()
+	threading.Thread(target=game_loop, args=[app]).start()
+	app.run()
+	
 
 
 if __name__ == '__main__':
