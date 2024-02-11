@@ -5,8 +5,8 @@ class PlayerType(Enum):
 	CPU = 1
 
 class Player:
-	def __init__(self, p_type: PlayerType) -> None:
-		self.p_type = p_type
+	def __init__(self, player_type: PlayerType) -> None:
+		self.player_type = player_type
 
 	def is_player(self) -> bool:
 		return (self.player_type == PlayerType.PLAYER)
